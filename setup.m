@@ -6,6 +6,7 @@ function setup()
 %      to create schemata and tables.
 %   2. Create a settings.m file in the base folder (where this file
 %      resides). You can copy, rename, and edit settings_template.m.
+%   3. Run startup.m
 %
 %   If there is an existing schema called 'example' you will be asked
 %   whether you want to drop it. This will delete all tables and data in
@@ -44,10 +45,10 @@ example.SingleUnitClusters
 example.SpikeTimes
 example.TuningCurves
 
-% Insert downloaded database dump
-error('TODO!!')
-
 disp ' '
 disp '------------------------------------------------'
 disp 'Database set up successfully. You''re good to go!'
+disp ' '
+disp 'To restore a dump file, use restore('filename').'
 disp '------------------------------------------------'
+disp ' '
