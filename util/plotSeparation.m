@@ -88,7 +88,7 @@ axis([0 1 0 1])
 axis off
 
 % write error rates on diagonal
-[fp, fn] = estimateErrorRates(b, model);
+[fp, fn] = estimateErrorRates(model, b);
 for k = 1 : K
     axes('Position', [k - 1, K - k, 1, 1] / K) %#ok
     axis([0 1 0 1])

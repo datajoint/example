@@ -18,10 +18,4 @@ classdef SingleUnits < dj.Relvar
     properties(Constant)
         table = dj.Table('example.SingleUnits');
     end
-    
-    methods
-        function self = SingleUnits(varargin)
-            self.restrict(varargin{:})
-        end
-    end
 end

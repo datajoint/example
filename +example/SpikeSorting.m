@@ -25,18 +25,12 @@ classdef SpikeSorting < dj.Relvar & dj.AutoPopulate
         popRel = example.SpikeDetection;
     end
     
-    methods 
-        function self = SpikeSorting(varargin)
-            self.restrict(varargin{:})
-        end
-    end
-    
     methods(Access = protected)
         function makeTuples(self, key)
             
             % run mixture of t distributions model to sort spikes
             df = 2;
-            b = fetch1(example.FeatureExtraction(key), 'spike_features');
+            b = fetch1(example.FeatureExtraction & key, 'spike_features');
             model = MixtureModel.fit(b, df);
 
             tuple = key;

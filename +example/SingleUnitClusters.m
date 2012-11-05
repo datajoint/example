@@ -14,10 +14,4 @@ classdef SingleUnitClusters < dj.Relvar
     properties(Constant)
         table = dj.Table('example.SingleUnitClusters');
     end
-    
-    methods
-        function self = SingleUnitClusters(varargin)
-            self.restrict(varargin{:})
-        end
-    end
 end

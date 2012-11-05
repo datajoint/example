@@ -17,17 +17,11 @@ classdef SpikeTimes < dj.Relvar & dj.AutoPopulate
         popRel = example.SingleUnits;
     end
     
-    methods
-        function self = SpikeTimes(varargin)
-            self.restrict(varargin{:})
-        end
-    end
-    
     methods (Access = protected)
         function makeTuples(self, key)
-            t = fetch1(example.SpikeDetection(key), 'spike_times');
-            assignments = fetch1(example.SpikeSorting(key), 'cluster_assignments');
-            clusters = fetchn(example.SingleUnitClusters(key), 'cluster_num');
+            t = fetch1(example.SpikeDetection & key, 'spike_times');
+            assignments = fetch1(example.SpikeSorting & key, 'cluster_assignments');
+            clusters = fetchn(example.SingleUnitClusters & key, 'cluster_num');
             tuple = key;
             tuple.spike_times = t(ismember(assignments, clusters));
             self.insert(tuple);

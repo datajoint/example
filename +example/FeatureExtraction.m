@@ -18,17 +18,11 @@ classdef FeatureExtraction < dj.Relvar & dj.AutoPopulate
         popRel = example.SpikeDetection;
     end
     
-    methods 
-        function self = FeatureExtraction(varargin)
-            self.restrict(varargin{:})
-        end
-    end
-    
     methods(Access = protected)
         function makeTuples(self, key)
 
             % get extracted spike waveforms from SpikeDetection table
-            w = fetch1(example.SpikeDetection(key), 'spike_waveforms');
+            w = fetch1(example.SpikeDetection & key, 'spike_waveforms');
 
             [~, n, k] = size(w);
             q = 3;                              % number of components per channel

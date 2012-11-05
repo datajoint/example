@@ -12,10 +12,4 @@ classdef Ephys < dj.Relvar
     properties(Constant)
         table = dj.Table('example.Ephys');
     end
-    
-    methods 
-        function self = Ephys(varargin)
-            self.restrict(varargin{:})
-        end
-    end
 end

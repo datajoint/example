@@ -12,10 +12,4 @@ classdef GratingTrials < dj.Relvar
     properties(Constant)
         table = dj.Table('example.GratingTrials');
     end
-    
-    methods 
-        function self = GratingTrials(varargin)
-            self.restrict(varargin{:})
-        end
-    end
 end

@@ -9,21 +9,24 @@ function tuples = insertSingleUnits(key, clusterList)
 %
 %   The following example inserts four single units, one of them (#3)
 %   consisting of two clusters:
-%       key = struct('date', '2012-02-17', 'tetrode', 17, 'group_num', 0);
-%       clusterList = {4, 7, [3 8], 2};
+%       key.subject_id = 1;
+%       key.session_date = '2012-02-17';
+%       key.ephys_start = '14:33:27';
+%       key.tetrode_num = 17;
+%       clusterList = {1, 3, 5, [6 9]};
 %       tuples = insertSingleUnits(key, clusterList)
 %
-% AE 2012-05-11
+% AE 2012-11-04
 
 if isempty(clusterList), return, end
 
 % ensure key is unique
-assert(count(example.Ephys(key)) == 1, 'Key must identify single recording!')
-key = fetch(example.SpikeSorting(key));
+assert(count(example.Ephys & key) == 1, 'Key must identify single recording!')
+key = fetch(example.SpikeSorting & key);
 
 % ensure clusterList is specified correctly
 assert(iscell(clusterList), 'Input must be cell array!')
-K = fetch1(example.SpikeSorting(key), 'num_components');
+K = fetch1(example.SpikeSorting & key, 'num_components');
 N = numel([clusterList{:}]);
 assert(all(cellfun(@(x) isnumeric(x) && all(x > 0) && all(x <= K), clusterList)), ...
     'Cluster list must be cell array of vectors containing cluster indices 1..K!')
@@ -31,11 +34,11 @@ assert(numel(unique([clusterList{:}])) == N, ...
     'Clusters cannot be part of multiple single units!')
 
 % if there are already tuples for this key ask if they should be deleted
-if count(example.SingleUnits(key))
+if count(example.SingleUnits & key)
     fprintf('Table contains single units for this dataset.\n')
     answer = input('Delete them first? [y/n] > ', 's');
     if answer(1) == 'y'
-        del(example.SingleUnits(key), false)
+        del(example.SingleUnits & key, false)
     else
         fprintf('Aborted!\n')
         tuples = [];

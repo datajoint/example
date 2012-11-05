@@ -23,10 +23,6 @@ classdef TuningCurves < dj.Relvar & dj.AutoPopulate
     end
     
     methods
-        function self = TuningCurves(varargin)
-            self.restrict(varargin{:})
-        end
-        
         function plot(self)
             % Plot tuning curve(s)
             %   plot(relvar) plots the tuning curve for all tuples in
@@ -35,7 +31,7 @@ classdef TuningCurves < dj.Relvar & dj.AutoPopulate
             %   Examples
             %
             %   % Plot all tuning curves for tetrode 17
-            %   tuning = example.TuningCurves('group_num = 0 and tetrode = 17');
+            %   tuning = example.TuningCurves & 'tetrode_num = 17';
             %   plot(tuning)
             %
             %   % Plot tuning curve for cell 1 on tetrode 17
@@ -43,7 +39,7 @@ classdef TuningCurves < dj.Relvar & dj.AutoPopulate
             
             theta = linspace(-10, 350, 100);
             for t = fetch(self, '*')'
-                T = fetch1(example.Gratings(t), 'stimulus_duration');
+                T = fetch1(example.Gratings & t, 'stimulus_duration');
                 n = size(t.spike_counts, 1);
                 y = tuningCurve(t.tuning_params, theta) / T * 1000;
                 rates = t.spike_counts / T * 1000;
@@ -101,9 +97,9 @@ function [directions, counts] = getSpikeCounts(key)
 %               matrix has dimensions #trials x #directions
 
 % Get firing rate matrix for stimulus presentations.
-t = fetch1(example.SpikeTimes(key), 'spike_times');
-stimDuration = fetch1(example.Gratings(key), 'stimulus_duration');
-[stimOnsets, dirs] = fetchn(example.GratingTrials(key), 'stimulus_onset', 'direction');
+t = fetch1(example.SpikeTimes & key, 'spike_times');
+stimDuration = fetch1(example.Gratings & key, 'stimulus_duration');
+[stimOnsets, dirs] = fetchn(example.GratingTrials & key, 'stimulus_onset', 'direction');
 nTrials = numel(stimOnsets);
 directions = unique(dirs)';
 nDir = numel(directions);

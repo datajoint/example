@@ -93,9 +93,9 @@ classdef MixtureModel
         end
         
         
-        function [fp, fn, pairwise, n] = estimateErrorRates(b, model)
+        function [fp, fn, pairwise, n] = estimateErrorRates(self, b)
             % Calculate cluster separation via false assignment rates.
-            %   [fp, fn, pairwise, n] = estimateErrorRates(b, model)
+            %   [fp, fn, pairwise, n] = estimateErrorRates(self, b)
             %   estimates false positive and false negative rates for each
             %   cluster as well as pairwise misassignments. The outputs
             %   are:
@@ -106,18 +106,19 @@ classdef MixtureModel
             %                       falsely) assigned to cluster j.
             %       n(i):           number of spikes in cluster i.
             
-            posterior = model.posterior(b);
-            assignment = model.cluster(b);
-            pairwise = zeros(model.K);
-            n = hist(assignment, 1 : model.K);
-            for j = 1 : model.K
-                for k = 1 : model.K
+            posterior = self.posterior(b);
+            assignment = self.cluster(b);
+            pairwise = zeros(self.K);
+            n = hist(assignment, 1 : self.K);
+            for j = 1 : self.K
+                for k = 1 : self.K
                     pairwise(j, k) = sum(posterior(assignment == k, j));
                 end
             end
             fp = 1 - diag(pairwise)' ./ n;
             fn = (sum(pairwise, 2) - diag(pairwise))' ./ n;
         end
+        
         
         function plotData(self, x, d1, d2)
             % Plot scatterplot of two selected data dimensions

@@ -19,12 +19,6 @@ classdef SpikeDetection < dj.Relvar & dj.AutoPopulate
         popRel = example.Ephys;
     end
     
-    methods 
-        function self = SpikeDetection(varargin)
-            self.restrict(varargin{:})
-        end
-    end
-    
     methods(Access = protected)
         function makeTuples(self, key)
             
