@@ -12,7 +12,7 @@ tables = {'Subjects', 'Sessions', 'Ephys', 'Gratings', 'GratingTrials', ...
           'SingleUnits', 'SingleUnitClusters', 'SpikeTimes', 'TuningCurves'};
 full = [1 1 1 1 1 0 0 1 1 1 1 1];
 for i = 1 : numel(tables)
-    if full(i) || (nargin > 1 && ~partial)
+    if full(i) || ~(nargin > 1 && partial)
         eval(sprintf('%s = fetch(example.%s, ''*'');', tables{i}, tables{i}));
     else
         % If the partial option is passed and set to false, just backup the
