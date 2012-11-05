@@ -28,7 +28,7 @@ classdef FeatureExtraction < dj.Relvar & dj.AutoPopulate
         function makeTuples(self, key)
 
             % get extracted spike waveforms from SpikeDetection table
-            w = fetch1(nda.SpikeDetection(key), 'spike_waveforms');
+            w = fetch1(example.SpikeDetection(key), 'spike_waveforms');
 
             [~, n, k] = size(w);
             q = 3;                              % number of components per channel

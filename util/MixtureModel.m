@@ -170,7 +170,7 @@ classdef MixtureModel
             xtrain = x(rnd(1:Ntrain), :);
 
             % initialize model
-            model = solution.MixtureModel(mean(xtrain, 1), cov(xtrain), 1, dof);
+            model = MixtureModel(mean(xtrain, 1), cov(xtrain), 1, dof);
             logLike = model.logLikelihood(xtrain);
             fprintf('Fitting mixture of Gaussians using split & merge\n')
             fprintf('Starting with one component')
@@ -319,7 +319,7 @@ classdef MixtureModel
             pSigma = repmat(det(self.Sigma(:, :, k)) ^ (1 / self.D) * eye(self.D), [1 1 2]);
             ppi = [0.5 0.5];
             x = x(self.cluster(x) == k, :);
-            partial = solution.MixtureModel(pmu, pSigma, ppi, self.df);
+            partial = MixtureModel(pmu, pSigma, ppi, self.df);
             logLike = partial.logLikelihood(x);
             par.verbose = false;
             par.tol = min(par.tol, 0.01);

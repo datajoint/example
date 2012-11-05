@@ -36,7 +36,7 @@ classdef SpikeSorting < dj.Relvar & dj.AutoPopulate
             
             % run mixture of t distributions model to sort spikes
             df = 2;
-            b = fetch1(nda.FeatureExtraction(key), 'spike_features');
+            b = fetch1(example.FeatureExtraction(key), 'spike_features');
             model = MixtureModel.fit(b, df);
 
             tuple = key;
