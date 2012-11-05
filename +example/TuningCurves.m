@@ -35,7 +35,7 @@ classdef TuningCurves < dj.Relvar & dj.AutoPopulate
             %   Examples
             %
             %   % Plot all tuning curves for tetrode 17
-            %   tuning = nda.TuningCurves('group_num = 0 and tetrode = 17');
+            %   tuning = example.TuningCurves('group_num = 0 and tetrode = 17');
             %   plot(tuning)
             %
             %   % Plot tuning curve for cell 1 on tetrode 17
@@ -43,9 +43,9 @@ classdef TuningCurves < dj.Relvar & dj.AutoPopulate
             
             theta = linspace(-10, 350, 100);
             for t = fetch(self, '*')'
-                T = fetch1(nda.Gratings(t), 'stimulus_duration');
+                T = fetch1(example.Gratings(t), 'stimulus_duration');
                 n = size(t.spike_counts, 1);
-                y = nda.call(t.group_num, 'tuningCurve', t.tuning_params, theta) / T * 1000;
+                y = tuningCurve(t.tuning_params, theta) / T * 1000;
                 rates = t.spike_counts / T * 1000;
                 figure
                 hold on
@@ -57,9 +57,8 @@ classdef TuningCurves < dj.Relvar & dj.AutoPopulate
                 xlabel('Direction of motion (degrees)')
                 ylabel('Firing rate (spikes / sec)')
                 xlim(theta([1 end]))
-                grp = fetch1(nda.Groups(struct('group_num', t.group_num)), 'group_name');
-                title(sprintf('%s | %s | tt %d | cell %d', grp, t.date, t.tetrode, t.unit_num));
-                set(gca, 'xtick', t.stim_directions(1:2:end), 'box', 'off')
+                title(sprintf('%s | tt %d | cell %d', t.session_date, t.tetrode_num, t.unit_num));
+                set(gca, 'xtick', t.stim_directions(1 : 2 : end), 'box', 'off')
             end
         end
     end
@@ -133,7 +132,7 @@ initPar = [log(maxRate), 0, 2, directions(maxDir) / 180 * pi];
 % fit parameters using maximum likelihood
 theta = repmat(directions, size(counts, 1), 1);
 opt = optimset('MaxFunEvals', 1e4, 'MaxIter', 1e3, 'Display', 'off', 'GradObj', 'on');
-fun = @(par) solution.poissonNegLogLike(par, counts(:), theta(:));
+fun = @(par) poissonNegLogLike(par, counts(:), theta(:));
 params = fminunc(fun, initPar, opt);
 
 % enforce params(2) to be positive so params(4) is actually the preferred
@@ -169,7 +168,7 @@ prefDir = params(4) / pi * 180;
 params(4) = 0;
 dt = 0.1;
 theta = 0 : dt : 90;
-y = solution.tuningCurve(params, theta);
+y = tuningCurve(params, theta);
 width = theta(find(y < y(1) / 2, 1, 'first'));
 if isempty(width)
     width = -1;
@@ -188,4 +187,33 @@ end
 end
 
 
+function y = tuningCurve(p, theta)
+% Evaluate tuning curve.
+%   y = tuningCurve(params, theta) evaluates the parametric tuning curve at
+%   directions theta (in degrees, 0..360). The parameters are specified by
+%   a 1-by-k vector params.
 
+theta = theta / 180 * pi; % convert to radians
+y = exp(p(1) + p(2) * (cos(theta - p(4)) - 1) + p(3) * (cos(2 * (theta - p(4))) - 1));
+end
+
+
+function [logLike, gradient] = poissonNegLogLike(p, counts, theta)
+% Negative log likelihood for Poisson spike count model
+
+lambda = tuningCurve(p, theta);
+theta = theta / 180 * pi;
+
+% log likelihood of Poisson model
+logLike = -sum(counts .* log(lambda) - lambda);
+
+% gradient of log likelihood w.r.t. parameters p
+c1 = cos(theta - p(4)) - 1;
+c2 = cos(2 * (theta - p(4))) - 1;
+s1 = sin(theta - p(4));
+s2 = sin(2 * (theta - p(4)));
+gradient(1) = -sum(counts - lambda);
+gradient(2) = -sum(c1 .* (counts - lambda));
+gradient(3) = -sum(c2 .* (counts - lambda));
+gradient(4) = -sum(counts .* (p(2) * s1 + 2 * p(3) * s2) - lambda .* (p(2) * s1 + 2 * p(3) * s2));
+end
