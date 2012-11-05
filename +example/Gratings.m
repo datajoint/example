@@ -1,7 +1,7 @@
 %{
 example.Gratings (manual) # List of grating stimuli that were shown
 
--> example.Sessions
+-> example.Ephys
 ---
 stimulus_duration   : int       # length of stimulus duration (ms)
 speed               : double    # drift speed (cycles/sec)

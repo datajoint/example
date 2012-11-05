@@ -1,12 +1,11 @@
 %{
-example.Ephys (manual)       # electrophysiology recordings
+example.Ephys (manual)      # electrophysiology recordings
 
 -> example.Sessions
-ephys_num       : tinyint unsigned  # ephys recording number within session
+ephys_start     : time      # time when recording was started
 ---
-ephys_path      : varchar(255)      # path to the ephys data
-sampling_rate   : double            # sampling rate of recording
-preamp_gain     : double            # preamplifier gain
+sampling_rate   : double    # sampling rate of recording
+gain            : double    # multiplier to convert to muV
 %}
 
 classdef Ephys < dj.Relvar

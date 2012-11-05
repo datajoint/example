@@ -7,7 +7,7 @@
 example.SpikeDetection (imported) # Spike detection
 
 -> example.Ephys
-tettrode_num   : tinyint unsigned   # tetrode number
+tetrode_num   : tinyint unsigned   # tetrode number
 ---
 spike_times     : longblob          # vector of spike times (see detectSpikes)
 spike_waveforms : longblob          # matrix of waveforms (see extractSpikes)
@@ -30,9 +30,11 @@ classdef SpikeDetection < dj.Relvar & dj.AutoPopulate
             
             % Load raw data (we converted the data to individual Matlab
             % files for each tetrode to simplify the example)
-            [ephysPath, Fs, gain] = fetch1(example.Ephys(key), 'ephys_path', 'sampling_rate', 'preamp_gain');
+            [sessionPath, ephysStart, Fs, gain] = fetch1((example.Sessions * example.Ephys) & key, ...
+                'session_path', 'ephys_start', 'sampling_rate', 'gain');
+            ephysPath = fullfile(sessionPath, strrep(ephysStart, ':', '-'));
             for file = dir(fullfile(ephysPath, 'tetrode*.mat'))'
-                data = load(file.name);
+                data = load(fullfile(ephysPath, file.name));
                 x = gain * double(data.x);
             
                 % Filter raw signal
