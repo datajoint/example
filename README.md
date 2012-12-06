@@ -32,4 +32,4 @@ To use the example schema:
         setup()
         restore('/path/to/dumpfile/dj_example.mat')
 
-You're ready to work wit the example schema.
+You're ready to work with the example schema.
