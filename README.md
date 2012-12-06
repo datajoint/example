@@ -1,12 +1,12 @@
 Instructions
 ====
 
-Setting up the database
+Set up the database server
 -----
 * Install MySQL Server
 * Create a user account that has privileges to create schemas and tables.
-  Note: you shouldn't use too secret a password since it's entered in plain
-  text.
+
+  Note: do not use your secret password since it will be entered in plain text.
 
 Configure the DataJoint library for MATLAB
 ----
@@ -26,7 +26,7 @@ Configure the example schema
         https://github.com/downloads/datajoint/example/dj_example.mat
 * Start Matlab and navigate to the root directory of the example 
   repository. Edit `settings_template.m`, fill in the necessary information,
-  and save it as 1settings.m`
+  and save it as `settings.m`
 * Run the following commands:
 
         startup()
