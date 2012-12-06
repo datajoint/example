@@ -1,4 +1,5 @@
-Instructions for setting up the example DataJoint schema
+Instructions
+====
 
 Setting up the database
 -----
@@ -15,9 +16,9 @@ Configure the DataJoint library for MATLAB
 * Clone the DataJoint Git repository:
 
         git clone git://github.com/datajoint/datajoint-matlab.git
+
 Configure the example schema
 -----
-To use the example schema:
 * Clone the Git repository for the example schema:
 
         git clone git://github.com/datajoint/example.git
