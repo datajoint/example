@@ -33,4 +33,11 @@ Configure the example schema
         setup()
         restore('/path/to/dumpfile/dj_example.mat')
 
-You're ready to work with the example schema.
+* Plot the entity relationship diagram (ERD) by typing
+
+        erd example
+
+You should see the following diagram, which depicts the objects in the schema and their dependencies, directed top-to-bottom.
+![alt text](https://raw.github.com/datajoint/example/master/example.png "ERD")
+
+You can proceed to [Lesson 1](https://github.com/datajoint/example/wiki/Lesson-1.--Fetching-data) in the wiki.
