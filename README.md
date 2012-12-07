@@ -1,3 +1,5 @@
+This repoisitory contains a simple DataJoint schema to help new users learn the basics of DataJoint. 
+
 Instructions
 ====
 
