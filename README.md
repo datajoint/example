@@ -43,4 +43,4 @@ You should see the following diagram, which depicts the objects in the schema an
 <p align=center>
 <img src=https://raw.github.com/datajoint/example/master/example.png>
 </p> 
-You can proceed to [Lesson 1](https://github.com/datajoint/example/wiki/Lesson-1.--Fetching-data) in the wiki.
+You can proceed to [Lesson 1](https://github.com/datajoint/example/wiki/)
